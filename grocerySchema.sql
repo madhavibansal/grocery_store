@@ -1,0 +1,37 @@
+CREATE DATABASE IF NOT EXISTS grocery_store;
+
+USE grocery_store;
+
+CREATE TABLE IF NOT EXISTS groceries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    stock INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    address varchar(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    grocery_id INT,
+    quantity INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (grocery_id) REFERENCES groceries(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS customer_pay (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    status ENUM('PENDING', 'COMPLETED') NOT NULL,
+    totalAmount DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES order_items(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

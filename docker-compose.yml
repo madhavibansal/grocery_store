@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Madhaviba@67899
+      MYSQL_DATABASE: grocery_store
+    ports:
+      - "3306:3306"
+
+  app:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=localhost
+      - DB_USER=root
+      - DB_PASS=Madhaviba@67899
+      - DB_NAME=grocery_store
